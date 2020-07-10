@@ -9,17 +9,31 @@ app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+var bodyParser = require('body-parser')
 var path=require("path")
-app.use(express.static(path.join(__dirname + '/views')))
-app.use(express.static(__dirname + '/public'))
-app.use(express.static(__dirname + '/public/css'))
+app.use(bodyParser.json())
 
-mongoose.connect("mongodb://localhost/fitness", {
+app.use(express.static(__dirname + '/public'))
+app.use(express.static(__dirname + '/public/css/'))
+
+ mongoose.connect("mongodb://localhost/fitness", {
   useNewUrlParser: true,
   useFindAndModify: false
-});
-app.get('/',(req,res)=>{
-    res.sendFile("index.html")
+ });
+ app.get('/',(req,res)=>{
+  var filePath = "./views/index.html"
+  var resolvedPath = path.resolve(filePath);
+  res.sendFile(resolvedPath)
+})
+
+app.get('/exercise', (req, res) => {
+  var filePath = "./views/exercise.html"
+  var resolvedPath = path.resolve(filePath);
+  res.sendFile(resolvedPath)
+})
+app.put('/api/workouts/:id', (req, res) => {
+  console.log(req.body)
+
 })
 
 
