@@ -33,7 +33,7 @@ app.use(express.static(__dirname + '/public/css/'))
   useNewUrlParser: true,
   useFindAndModify: false
  });
- let Exercises=connection.model("Exercises", schema)
+ let Exercise=connection.model("Exercise", schema)
 
  
  app.get('/',(req,res)=>{
@@ -48,7 +48,7 @@ app.get('/exercise', (req, res) => {
   res.sendFile(resolvedPath)
 })
 app.put('/api/workouts/:id', (req, res) => {
-  Exercises.create(req.body,(err, data)=>{
+  Exercise.create(req.body,(err, data)=>{
     connection.collection('Exercise').insertOne(data).then((result, err)=> {
       if (err){
         console.log(`ha you really thought: ${err}`)
