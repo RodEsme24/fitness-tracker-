@@ -20,6 +20,7 @@ app.use(express.static(__dirname + '/public/css/'))
   useNewUrlParser: true,
   useFindAndModify: false
  });
+ let db=mongoose.connection
  app.get('/',(req,res)=>{
   var filePath = "./views/index.html"
   var resolvedPath = path.resolve(filePath);
@@ -32,8 +33,11 @@ app.get('/exercise', (req, res) => {
   res.sendFile(resolvedPath)
 })
 app.put('/api/workouts/:id', (req, res) => {
-  console.log(req.body)
-
+  console.log(db)
+  db.collection("Exercises").insertOne(req.body)
+    .catch(err =>{
+      console.log(err)
+    })
 })
 
 
