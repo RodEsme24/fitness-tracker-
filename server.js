@@ -1,5 +1,18 @@
 const express = require("express");
 const mongoose = require("mongoose");
+let Schema=mongoose.Schema
+let schema=new Schema({
+type:String,
+name:String,
+distance:Number,
+duration:Number,
+weight:Number,
+sets:Number,
+reps:Number,
+
+})
+
+
 
 const PORT = 3000;
 
@@ -16,11 +29,13 @@ app.use(bodyParser.json())
 app.use(express.static(__dirname + '/public'))
 app.use(express.static(__dirname + '/public/css/'))
 
- mongoose.connect("mongodb://localhost/fitness", {
+ var connection=mongoose.createConnection("mongodb://localhost/fitness", {
   useNewUrlParser: true,
   useFindAndModify: false
  });
- let db=mongoose.connection
+ let Exercises=connection.model("Exercises", schema)
+
+ 
  app.get('/',(req,res)=>{
   var filePath = "./views/index.html"
   var resolvedPath = path.resolve(filePath);
@@ -33,11 +48,15 @@ app.get('/exercise', (req, res) => {
   res.sendFile(resolvedPath)
 })
 app.put('/api/workouts/:id', (req, res) => {
-  console.log(db)
-  db.collection("Exercises").insertOne(req.body)
-    .catch(err =>{
-      console.log(err)
+  Exercises.create(req.body,(err, data)=>{
+    connection.collection('Exercise').insertOne(data).then((result, err)=> {
+      if (err){
+        console.log(`ha you really thought: ${err}`)
+      } else {
+        console.log(`bruhhhhhhhhhhhhhhhh like if this happens i'll be so sad: ${result}`)
+      }
     })
+  })
 })
 
 
