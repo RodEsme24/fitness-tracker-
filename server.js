@@ -47,18 +47,26 @@ app.get('/exercise', (req, res) => {
   var resolvedPath = path.resolve(filePath);
   res.sendFile(resolvedPath)
 })
+
 app.put('/api/workouts/:id', (req, res) => {
-  Exercise.create(req.body,(err, data)=>{
-    connection.collection('Exercise').insertOne(data).then((result, err)=> {
-      if (err){
-        console.log(`ha you really thought: ${err}`)
-      } else {
-        console.log(`bruhhhhhhhhhhhhhhhh like if this happens i'll be so sad: ${result}`)
-      }
+  Exercise.create(req.body, (err, data) => {
+    connection.collection('Exercise').insertOne(data).then((result, err) => {
+    if (err){
+    console.log(`ha you really thought: ${err}`)
+    } 
+    res.send({msg:"hi"})
     })
   })
 })
-
+app.get('/api/workouts', (req, res) => {
+  Exercise.find({}, {}, {}, (err, result) => {
+    if (err) {
+      console.log(err)
+    }
+    console.log(result)
+    res.json(result)
+  })
+})
 
 app.listen(PORT, () => {
   console.log(`App running on port ${PORT}!`);
