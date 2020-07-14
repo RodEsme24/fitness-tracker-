@@ -19,7 +19,7 @@ day:Date,
 
 
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 const app = express();
 app.use(express.static('public'))
@@ -34,10 +34,7 @@ app.use(bodyParser.json())
 app.use(express.static(__dirname + '/public'))
 app.use(express.static(__dirname + '/public/css/'))
 
- var connection=mongoose.createConnection("mongodb://localhost/fitness", {
-  useNewUrlParser: true,
-  useFindAndModify: false
- });
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/fitness", { useNewUrlParser: true, useUnifiedTopology: true });
  let Workout=connection.model("Exercise", schema)
 
 
