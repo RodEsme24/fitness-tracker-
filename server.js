@@ -1,14 +1,19 @@
 const express = require("express");
 const mongoose = require("mongoose");
 let Schema=mongoose.Schema
+let subschema=new Schema({
+  type:String,
+  name:String,
+  distance:Number,
+  duration:Number,
+  weight:Number,
+  sets:Number,
+  reps:Number,
+})
 let schema=new Schema({
-type:String,
-name:String,
-distance:Number,
-duration:Number,
-weight:Number,
-sets:Number,
-reps:Number,
+day:Date,
+  exercises:[subschema]
+
 
 })
 
@@ -33,7 +38,9 @@ app.use(express.static(__dirname + '/public/css/'))
   useNewUrlParser: true,
   useFindAndModify: false
  });
- let Exercise=connection.model("Exercise", schema)
+ let Workout=connection.model("Exercise", schema)
+
+
 
  
  app.get('/',(req,res)=>{
@@ -48,22 +55,59 @@ app.get('/exercise', (req, res) => {
   res.sendFile(resolvedPath)
 })
 
-app.put('/api/workouts/:id', (req, res) => {
-  Exercise.create(req.body, (err, data) => {
-    connection.collection('Exercise').insertOne(data).then((result, err) => {
+app.get('/stats', (req, res) => {
+  var filePath = "./views/stats.html"
+  var resolvedPath = path.resolve(filePath);
+  res.sendFile(resolvedPath)
+})
+
+app.post('/api/workouts', (req, res) => {
+  let profit={
+    day:new Date(),
+    exercises:[req.body]
+  }
+  Workout.create(profit, (err, data) => {
+    connection.collection('Workout').insertOne(data).then((result, err) => {
     if (err){
     console.log(`ha you really thought: ${err}`)
     } 
-    res.send({msg:"hi"})
+    console.log(result.ops[0])
+    res.send(result.ops[0])
     })
   })
 })
+
+
+app.put('/api/workouts/:id', (req, res) => {
+  let id = req.params.id
+  console.log(id)
+  Workout.findById(id, (err, result) => {
+    console.log(`first result: ${result}`)
+    let prevExercises = result.exercises
+    Workout.findOneAndUpdate({_id: id}, { $set: { exercises: [...prevExercises, req.body] }}, {}, (err, result) => {
+      if (err) {
+        console.log(err)
+      }
+      console.log(`second result: ${result}`)
+      res.json(result)
+    })
+  })
+})
+
 app.get('/api/workouts', (req, res) => {
-  Exercise.find({}, {}, {}, (err, result) => {
+  Workout.find({}, {}, {}, (err, result) => {
     if (err) {
       console.log(err)
     }
-    console.log(result)
+    res.json(result)
+  })
+})
+
+app.get('/api/workouts/range', (req, res) => {
+  Workout.find({}, {}, {}, (err, result) => {
+    if (err) {
+      console.log(err)
+    }
     res.json(result)
   })
 })
