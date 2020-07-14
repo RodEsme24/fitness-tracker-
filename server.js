@@ -27,12 +27,7 @@ app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// var bodyParser = require('body-parser')
-// var path=require("path")
-// app.use(bodyParser.json())
 
-// app.use(express.static(__dirname + '/public'))
-// app.use(express.static(__dirname + '/public/css/'))
 
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/fitness", { useNewUrlParser: true, useUnifiedTopology: true });
  let Workout=connection.model("fitness", schema)
