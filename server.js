@@ -59,13 +59,11 @@ app.post('/api/workouts', (req, res) => {
     exercises:[req.body]
   }
   Workout.create(profit, (err, data) => {
-    Workout.insertOne(data).then((result, err) => {
     if (err){
-    console.log(`ha you really thought: ${err}`)
-    } 
-    console.log(result.ops[0])
-    res.send(result.ops[0])
-    })
+      console.log(`ha you really thought: ${err}`)
+      } 
+      console.log(result.ops[0])
+      res.send(result.ops[0])
   })
 })
 
