@@ -30,7 +30,7 @@ app.use(express.json());
 
 
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/fitness", { useNewUrlParser: true, useUnifiedTopology: true });
- let Workout=mongoose.model("fitness", schema)
+let Workout=mongoose.model("fitness", schema)
 
 
 
