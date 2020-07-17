@@ -14,8 +14,6 @@ let subschema=new Schema({
 let schema=new Schema({
 day:Date,
   exercises:[subschema]
-
-
 })
 
 
@@ -61,7 +59,7 @@ app.post('/api/workouts', (req, res) => {
     exercises:[req.body]
   }
   Workout.create(profit, (err, data) => {
-    connection.collection('Workout').insertOne(data).then((result, err) => {
+    mongoose.collection('Workout').insertOne(data).then((result, err) => {
     if (err){
     console.log(`ha you really thought: ${err}`)
     } 
