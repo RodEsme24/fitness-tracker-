@@ -59,7 +59,7 @@ app.post('/api/workouts', (req, res) => {
     exercises:[req.body]
   }
   Workout.create(profit, (err, data) => {
-    mongoose.collection('Workout').insertOne(data).then((result, err) => {
+    Workout.insertOne(data).then((result, err) => {
     if (err){
     console.log(`ha you really thought: ${err}`)
     } 
