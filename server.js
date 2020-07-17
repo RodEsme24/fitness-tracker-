@@ -14,7 +14,7 @@ let subschema=new Schema({
 let schema=new Schema({
 day:Date,
   exercises:[subschema]
-  
+
 })
 
 
@@ -56,9 +56,17 @@ app.get('/stats', (req, res) => {
 })
 
 app.post('/api/workouts', (req, res) => {
-  let profit={
-    day:new Date(),
-    exercises:[req.body]
+  let profit
+  if(Object.keys(req.body).length === 0 && req.body.constructor === Object) {
+    profit={
+      day:new Date(),
+      exercises:[{}]
+    }
+  } else {
+    profit={
+      day:new Date(),
+      exercises:[req.body]
+    }
   }
   Workout.create(profit, (err, data) => {
     if (err){
