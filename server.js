@@ -14,6 +14,7 @@ let subschema=new Schema({
 let schema=new Schema({
 day:Date,
   exercises:[subschema]
+  
 })
 
 
