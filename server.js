@@ -39,19 +39,19 @@ let Workout=mongoose.model("fitness", schema)
  app.get('/',(req,res)=>{
   var filePath = "./views/index.html"
   var resolvedPath = path.resolve(filePath);
-  res.sendFile('index.html')
+  res.sendFile(resolvedPath)
 })
 
 app.get('/exercise', (req, res) => {
   var filePath = "./views/exercise.html"
   var resolvedPath = path.resolve(filePath);
-  res.sendFile('exercise.html')
+  res.sendFile(resolvedPath)
 })
 
 app.get('/stats', (req, res) => {
   var filePath = "./views/stats.html"
   var resolvedPath = path.resolve(filePath);
-  res.sendFile('stats.html')
+  res.sendFile(resolvedPath)
 })
 
 app.post('/api/workouts', (req, res) => {
