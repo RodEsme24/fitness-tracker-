@@ -24,7 +24,7 @@ const PORT = process.env.PORT || 3000;
 const app = express();
 app.use(express.static('public'))
 
-app.use(express.static('public/css/'))
+
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -38,19 +38,19 @@ let Workout = mongoose.model("fitness", schema)
 
 
 app.get('/', (req, res) => {
-  var filePath = "./views/index.html"
+  var filePath = "./public/index.html"
   var resolvedPath = path.resolve(filePath);
   res.sendFile(resolvedPath)
 })
 
 app.get('/exercise', (req, res) => {
-  var filePath = "./views/exercise.html"
+  var filePath = "./public/exercise.html"
   var resolvedPath = path.resolve(filePath);
   res.sendFile(resolvedPath)
 })
 
 app.get('/stats', (req, res) => {
-  var filePath = "./views/stats.html"
+  var filePath = "./public/stats.html"
   var resolvedPath = path.resolve(filePath);
   res.sendFile(resolvedPath)
 })
