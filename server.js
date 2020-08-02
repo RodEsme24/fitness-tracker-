@@ -56,26 +56,14 @@ app.get('/stats', (req, res) => {
 })
 
 app.post('/api/workouts', (req, res) => {
-  let profit
-  if (Object.keys(req.body).length === 0 && req.body.constructor === Object) {
-    profit = {
-      day: new Date(),
-      exercises: [{}]
-    }
-  } else {
-    profit = {
-      day: new Date(),
-      exercises: [req.body]
-    }
-  }
-  Workout.create(profit, (err, data) => {
-    if (err) {
-      console.log(`ha you really thought: ${err}`)
-    }
-    console.log(result.ops[0])
-    res.send(result.ops[0])
+  Workout.create({}).then(result => {
+    res.json(result)
+  }).catch(err => {
+    console.log(err)
   })
-})
+  }
+)
+
 
 
 app.put('/api/workouts/:id', (req, res) => {
